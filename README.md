@@ -34,7 +34,7 @@ Professional website for Roland's Tire and Automotive, a family-owned tire and a
 - **Founded**: 1965 (Nearly 60 years in business)
 - **Address**: 4998 Navy Rd, Millington, TN 38053
 - **Phone**: (901) 872-8473
-- **Hours**: Mon-Fri 8AM-5PM, Sat 8AM-12PM
+- **Hours**: Mon-Fri 8AM-5PM, Saturday Closed
 - **Certifications**: ASE Certified technicians
 
 ## Technology Stack
