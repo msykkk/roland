@@ -341,8 +341,8 @@
             setupEventListeners();
             
             // Show database stats
-            const vehicleCount = Object.keys(vehicleDB.scrapedData).length;
-            console.log(`🚗 Loaded tire data for ${vehicleCount} vehicles from TireRack scraper`);
+            const vehicleCount = Object.keys(vehicleDB.vehicleData).length;
+            console.log(`🚗 Loaded tire data for ${vehicleCount} vehicles from Roland's database`);
         });
 
         function populateYears() {
