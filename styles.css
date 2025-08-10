@@ -352,7 +352,7 @@ p {
 /* Features */
 .feature-box {
     text-align: center;
-    padding: 30px;
+    padding: 30px 20px;
     background: var(--white);
     border-radius: 10px;
     box-shadow: 0 3px 10px rgba(0,0,0,0.1);
@@ -362,6 +362,8 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 100%;
+    min-width: 0;
 }
 
 .feature-box:hover {
@@ -372,6 +374,20 @@ p {
     font-size: 3rem;
     color: var(--primary-color);
     margin-bottom: 20px;
+}
+
+.feature-box h4 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+.feature-box p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    word-wrap: break-word;
+    hyphens: auto;
 }
 
 /* Why Choose Us List */
