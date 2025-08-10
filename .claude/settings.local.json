@@ -15,7 +15,8 @@
       "Bash(npm install:*)",
       "Bash(vercel login:*)",
       "Bash(vercel:*)",
-      "WebFetch(domain:roland-yo1tcc9ii-noahs-projects-5b7ec00a.vercel.app)"
+      "WebFetch(domain:roland-yo1tcc9ii-noahs-projects-5b7ec00a.vercel.app)",
+      "Bash(magick convert:*)"
     ],
     "deny": []
   }
