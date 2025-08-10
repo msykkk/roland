@@ -8,10 +8,14 @@
     "build": "echo 'Static site - no build required'",
     "start": "python -m http.server 8080",
     "scrape-tires": "node tire-scraper.js",
-    "scrape-50": "node tire-scraper.js 50",
+    "scrape-50": "node tire-scraper.js 50", 
     "scrape-100": "node tire-scraper.js 100",
+    "scrape-500": "node tire-scraper.js 500",
+    "scrape-all": "node tire-scraper.js",
     "excel-to-json": "node excel-to-json.js",
-    "create-template": "node create-tire-template.js"
+    "json-to-excel": "node json-to-excel.js",
+    "create-template": "node create-tire-template.js",
+    "create-comprehensive": "node populate-comprehensive-database.js"
   },
   "dependencies": {
     "jsdom": "^22.1.0",

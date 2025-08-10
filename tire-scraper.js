@@ -61,7 +61,7 @@ class TireRackScraper {
         });
     }
 
-    // Extract tire sizes from TireRack vehicle page
+    // Extract tire sizes from TireRack vehicle page - Enhanced
     extractTireSizes(html, vehicle) {
         try {
             const dom = new JSDOM(html);
@@ -69,29 +69,63 @@ class TireRackScraper {
             
             const tireSizes = new Set();
             
-            // Look for tire size patterns in the HTML
-            const tireSizeRegex = /(\d{3}\/\d{2}R\d{2}|\d{3}\/\d{2}-\d{2}|P\d{3}\/\d{2}R\d{2})/g;
-            const matches = html.match(tireSizeRegex);
+            // Comprehensive tire size patterns
+            const patterns = [
+                /(?:^|\s)(\d{3}\/\d{2}R\d{2})(?:\s|$)/g,           // 225/60R16
+                /(?:^|\s)(P\d{3}\/\d{2}R\d{2})(?:\s|$)/g,          // P225/60R16
+                /(?:^|\s)(LT\d{3}\/\d{2}R\d{2})(?:\s|$)/g,         // LT245/75R16
+                /(?:^|\s)(\d{3}\/\d{2}-\d{2})(?:\s|$)/g,           // 225/60-16
+                /(?:^|\s)(\d{3}\/\d{2}ZR\d{2})(?:\s|$)/g,          // 225/45ZR17
+                /(?:^|\s)(\d{2,3}\/\d{2}R\d{2}\.?\d?)(?:\s|$)/g,   // 31/10.50R15
+            ];
             
-            if (matches) {
-                matches.forEach(size => {
-                    // Clean up the tire size format
-                    const cleanSize = size.replace(/^P/, ''); // Remove P prefix if present
-                    tireSizes.add(cleanSize);
-                });
-            }
-
-            // Also look for tire sizes in specific elements
-            const sizeElements = document.querySelectorAll('.tire-size, .size, [data-size]');
-            sizeElements.forEach(element => {
-                const text = element.textContent.trim();
-                const match = text.match(tireSizeRegex);
-                if (match) {
-                    tireSizes.add(match[0].replace(/^P/, ''));
+            // Search all patterns in HTML
+            patterns.forEach(pattern => {
+                let match;
+                while ((match = pattern.exec(html)) !== null) {
+                    const size = match[1].trim();
+                    if (size.length > 6) {
+                        tireSizes.add(size);
+                    }
                 }
             });
 
-            return Array.from(tireSizes);
+            // Also search in DOM elements
+            const selectors = ['.tire-size', '.size', '[data-size]', '.specification', 'td', 'li'];
+            selectors.forEach(selector => {
+                const elements = document.querySelectorAll(selector);
+                elements.forEach(element => {
+                    const text = element.textContent;
+                    patterns.forEach(pattern => {
+                        pattern.lastIndex = 0;
+                        let match;
+                        while ((match = pattern.exec(text)) !== null) {
+                            const size = match[1].trim();
+                            if (size.length > 6) {
+                                tireSizes.add(size);
+                            }
+                        }
+                    });
+                });
+            });
+
+            // Filter and sort results
+            const sizesArray = Array.from(tireSizes)
+                .filter(size => {
+                    const parts = size.match(/(\d{2,3})\/(\d{2})R?(\d{2})/);
+                    if (!parts) return false;
+                    
+                    const width = parseInt(parts[1]);
+                    const ratio = parseInt(parts[2]);
+                    const diameter = parseInt(parts[3]);
+                    
+                    return width >= 125 && width <= 395 &&
+                           ratio >= 25 && ratio <= 85 &&
+                           diameter >= 13 && diameter <= 24;
+                })
+                .sort();
+
+            return sizesArray;
         } catch (error) {
             console.error(`❌ Error extracting tire sizes for ${vehicle.year} ${vehicle.make} ${vehicle.model}: ${error.message}`);
             return [];
@@ -134,41 +168,159 @@ class TireRackScraper {
         }
     }
 
-    // Popular vehicles list to scrape first
-    getPopularVehicles() {
+    // Comprehensive vehicles list - all major models and years
+    getComprehensiveVehicles() {
         const currentYear = new Date().getFullYear();
-        const years = [currentYear, currentYear - 1, currentYear - 2, currentYear - 3];
+        // Focus on available years (2016-2024) - skip 2025 until models are released
+        const years = [];
+        for (let year = currentYear - 1; year >= currentYear - 8; year--) {
+            years.push(year);
+        }
         const vehicles = [];
 
-        const popularModels = {
-            'Ford': ['F-150', 'Escape', 'Explorer', 'Mustang', 'Focus', 'Fusion', 'Edge'],
-            'Chevrolet': ['Silverado', 'Equinox', 'Malibu', 'Tahoe', 'Cruze', 'Traverse', 'Impala'],
-            'Toyota': ['Camry', 'Corolla', 'RAV4', 'Highlander', 'Prius', 'Tacoma', '4Runner', 'Sienna'],
-            'Honda': ['Accord', 'Civic', 'CR-V', 'Pilot', 'Fit', 'Odyssey', 'Ridgeline', 'HR-V'],
-            'Nissan': ['Altima', 'Sentra', 'Rogue', 'Pathfinder', 'Maxima', 'Murano', 'Titan', 'Versa'],
-            'Jeep': ['Wrangler', 'Grand Cherokee', 'Cherokee', 'Compass', 'Renegade', 'Gladiator'],
-            'RAM': ['1500', '2500', '3500', 'ProMaster'],
-            'GMC': ['Sierra', 'Acadia', 'Terrain', 'Yukon', 'Canyon']
+        const allModels = {
+            'Ford': [
+                'F-150', 'F-250', 'F-350', 'F-450', 'Ranger', 'Maverick',
+                'Escape', 'Explorer', 'Expedition', 'Bronco', 'Bronco Sport', 'Edge', 'EcoSport',
+                'Mustang', 'Fusion', 'Focus', 'Fiesta', 'Taurus',
+                'Transit', 'E-Series', 'Transit Connect'
+            ],
+            'Chevrolet': [
+                'Silverado 1500', 'Silverado 2500HD', 'Silverado 3500HD', 'Colorado', 'S-10',
+                'Equinox', 'Traverse', 'Tahoe', 'Suburban', 'Blazer', 'Trailblazer', 'Trax',
+                'Camaro', 'Corvette', 'Malibu', 'Cruze', 'Impala', 'Spark', 'Sonic',
+                'Express', 'City Express'
+            ],
+            'Toyota': [
+                'Tacoma', 'Tundra', 'Sequoia', '4Runner', 'Land Cruiser', 'Highlander',
+                'RAV4', 'Venza', 'C-HR', 'Sienna', 'Prius', 'Prius Prime', 'Prius C', 'Prius V',
+                'Camry', 'Corolla', 'Avalon', 'Yaris', 'Mirai', 'GR86', 'Supra'
+            ],
+            'Honda': [
+                'Ridgeline', 'Pilot', 'Passport', 'CR-V', 'HR-V', 'Odyssey',
+                'Accord', 'Civic', 'Insight', 'Clarity', 'Fit', 'CR-Z', 'S2000'
+            ],
+            'Nissan': [
+                'Titan', 'Titan XD', 'Frontier', 'Pathfinder', 'Armada', 'Rogue', 'Murano',
+                'Kicks', 'Sentra', 'Altima', 'Maxima', 'Versa', 'Leaf', '370Z', 'GT-R',
+                'NV200', 'NV1500', 'NV2500', 'NV3500'
+            ],
+            'Jeep': [
+                'Gladiator', 'Wrangler', 'Grand Cherokee', 'Cherokee', 'Compass', 'Renegade',
+                'Grand Cherokee L', 'Commander', 'Patriot', 'Liberty', 'Wagoneer', 'Grand Wagoneer'
+            ],
+            'RAM': [
+                '1500', '2500', '3500', '4500', '5500', 'ProMaster', 'ProMaster City', 'C/V'
+            ],
+            'GMC': [
+                'Sierra 1500', 'Sierra 2500HD', 'Sierra 3500HD', 'Canyon', 'Yukon', 'Yukon XL',
+                'Acadia', 'Terrain', 'Envoy', 'Savana'
+            ],
+            'Hyundai': [
+                'Santa Fe', 'Tucson', 'Palisade', 'Kona', 'Venue', 'Nexo',
+                'Sonata', 'Elantra', 'Accent', 'Ioniq', 'Veloster', 'Genesis'
+            ],
+            'Kia': [
+                'Sorento', 'Sportage', 'Telluride', 'Soul', 'Niro', 'Seltos',
+                'Optima', 'Forte', 'Rio', 'Cadenza', 'Stinger', 'K5', 'EV6'
+            ],
+            'Subaru': [
+                'Outback', 'Forester', 'Ascent', 'XV Crosstrek', 'Crosstrek',
+                'Legacy', 'Impreza', 'WRX', 'STI', 'BRZ'
+            ],
+            'Mazda': [
+                'CX-9', 'CX-5', 'CX-3', 'CX-30', 'Mazda3', 'Mazda6', 'MX-5 Miata'
+            ],
+            'Volkswagen': [
+                'Atlas', 'Tiguan', 'Taos', 'ID.4', 'Passat', 'Jetta', 'Golf', 'Beetle', 'Arteon'
+            ],
+            'BMW': [
+                'X7', 'X6', 'X5', 'X4', 'X3', 'X2', 'X1', 'iX', 'i4', 'i3',
+                '7 Series', '5 Series', '4 Series', '3 Series', '2 Series', '1 Series', 'Z4'
+            ],
+            'Mercedes-Benz': [
+                'GLS', 'GLE', 'GLC', 'GLB', 'GLA', 'G-Class', 'EQS', 'EQC',
+                'S-Class', 'E-Class', 'C-Class', 'A-Class', 'CLS', 'SL', 'AMG GT'
+            ],
+            'Audi': [
+                'Q8', 'Q7', 'Q5', 'Q3', 'e-tron', 'A8', 'A7', 'A6', 'A5', 'A4', 'A3', 'TT', 'R8'
+            ],
+            'Lexus': [
+                'LX', 'GX', 'RX', 'NX', 'UX', 'LS', 'ES', 'IS', 'LC', 'RC', 'GS'
+            ],
+            'Infiniti': [
+                'QX80', 'QX60', 'QX56', 'QX50', 'QX30', 'Q70', 'Q60', 'Q50'
+            ],
+            'Acura': [
+                'MDX', 'RDX', 'TLX', 'ILX', 'NSX', 'RLX', 'TSX', 'TL'
+            ],
+            'Cadillac': [
+                'Escalade', 'XT6', 'XT5', 'XT4', 'CT6', 'CT5', 'CT4', 'ATS', 'CTS', 'XTS'
+            ],
+            'Lincoln': [
+                'Navigator', 'Aviator', 'Corsair', 'Nautilus', 'Continental', 'MKZ', 'MKC'
+            ],
+            'Buick': [
+                'Enclave', 'Encore', 'Encore GX', 'Envision', 'LaCrosse', 'Regal'
+            ],
+            'Chrysler': [
+                'Pacifica', '300', 'Voyager', 'Town & Country', 'Sebring', 'PT Cruiser'
+            ],
+            'Dodge': [
+                'Durango', 'Journey', 'Challenger', 'Charger', 'Dart', 'Avenger', 'Viper'
+            ],
+            'Mitsubishi': [
+                'Outlander', 'Eclipse Cross', 'Outlander Sport', 'Mirage', 'Lancer'
+            ],
+            'Volvo': [
+                'XC90', 'XC60', 'XC40', 'S90', 'S60', 'V90', 'V60'
+            ]
         };
 
-        // Create vehicle combinations
+        // Create all vehicle combinations
         years.forEach(year => {
-            Object.entries(popularModels).forEach(([make, models]) => {
+            Object.entries(allModels).forEach(([make, models]) => {
                 models.forEach(model => {
                     vehicles.push({ year, make, model });
                 });
             });
         });
 
+        console.log(`📋 Generated ${vehicles.length} vehicle combinations`);
         return vehicles;
     }
 
-    // Main scraping function
-    async scrapeVehicles(limit = 100) {
-        console.log('🚀 Starting TireRack scraper with 0.1 second delays');
-        console.log(`📊 Target: ${limit} vehicles`);
+    // Get popular vehicles (subset for quick testing)
+    getPopularVehicles(limit = 100) {
+        const allVehicles = this.getComprehensiveVehicles();
         
-        const vehicles = this.getPopularVehicles().slice(0, limit);
+        // Prioritize recent years and popular models
+        const priorityMakes = ['Ford', 'Chevrolet', 'Toyota', 'Honda', 'Nissan', 'Jeep', 'RAM', 'GMC'];
+        const priorityModels = [
+            'F-150', 'Silverado 1500', 'Camry', 'Civic', 'Accord', 'CR-V', 'RAV4', 
+            'Altima', 'Wrangler', '1500', 'Sierra 1500', 'Explorer', 'Equinox', 'Corolla'
+        ];
+
+        const priorityVehicles = allVehicles.filter(v => 
+            v.year >= 2020 && 
+            (priorityMakes.includes(v.make) || priorityModels.includes(v.model))
+        );
+
+        return priorityVehicles.slice(0, limit);
+    }
+
+    // Main scraping function - comprehensive by default
+    async scrapeVehicles(limit = null) {
+        console.log('🚀 Starting comprehensive TireRack scraper with 0.1 second delays');
+        
+        const allVehicles = this.getComprehensiveVehicles();
+        const vehicles = limit ? allVehicles.slice(0, limit) : allVehicles;
+        
+        console.log(`📊 Target: ${vehicles.length} vehicles (${limit ? 'limited' : 'ALL comprehensive data'})`);
+        console.log(`📅 Years: 2016-2025 (10 years)`);
+        console.log(`🏭 Manufacturers: 28 major brands`);
+        console.log(`⏱️  Estimated time: ${Math.round(vehicles.length * 0.1 / 60)} minutes`);
+        console.log('');
         
         console.log(`🎯 Scraping ${vehicles.length} popular vehicles...`);
         

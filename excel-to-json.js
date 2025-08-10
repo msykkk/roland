@@ -26,11 +26,23 @@ class ExcelToJsonConverter {
         console.log('📖 Reading Excel data...');
         
         const workbook = XLSX.readFile(this.excelFile);
-        const sheetName = 'Tire Database';
         
-        if (!workbook.Sheets[sheetName]) {
-            throw new Error(`Sheet "${sheetName}" not found in Excel file`);
+        // Try different possible sheet names
+        const possibleNames = ['Tire Database', 'Comprehensive Tire Database', workbook.SheetNames[0]];
+        let sheetName = null;
+        
+        for (const name of possibleNames) {
+            if (workbook.Sheets[name]) {
+                sheetName = name;
+                break;
+            }
         }
+        
+        if (!sheetName) {
+            throw new Error(`No tire data sheet found. Available sheets: ${workbook.SheetNames.join(', ')}`);
+        }
+        
+        console.log(`📄 Using sheet: ${sheetName}`);
 
         const worksheet = workbook.Sheets[sheetName];
         const data = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: '' });
