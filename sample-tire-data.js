@@ -2,6 +2,33 @@
 // Generated to demonstrate the data structure
 
 const scrapedTireData = {
+    // 2025 Models
+    "2025_Honda_Civic": {
+        "year": 2025,
+        "make": "Honda",
+        "model": "Civic",
+        "tireSizes": ["215/55R16", "235/40R18", "215/50R17"],
+        "primarySize": "215/55R16",
+        "scrapedAt": "2025-08-10T17:30:00.000Z"
+    },
+    "2025_Toyota_Camry": {
+        "year": 2025,
+        "make": "Toyota", 
+        "model": "Camry",
+        "tireSizes": ["215/55R17", "235/45R18"],
+        "primarySize": "215/55R17",
+        "scrapedAt": "2025-08-10T17:30:00.000Z"
+    },
+    "2025_Ford_F-150": {
+        "year": 2025,
+        "make": "Ford",
+        "model": "F-150", 
+        "tireSizes": ["LT275/65R18", "LT275/70R17", "P255/70R17"],
+        "primarySize": "LT275/65R18",
+        "scrapedAt": "2025-08-10T17:30:00.000Z"
+    },
+    
+    // 2024 Models
     "2024_Honda_Civic": {
         "year": 2024,
         "make": "Honda",
@@ -24,14 +51,6 @@ const scrapedTireData = {
         "model": "F-150", 
         "tireSizes": ["LT275/65R18", "LT275/70R17", "P255/70R17"],
         "primarySize": "LT275/65R18",
-        "scrapedAt": "2025-08-10T17:30:00.000Z"
-    },
-    "2023_Chevrolet_Silverado": {
-        "year": 2023,
-        "make": "Chevrolet",
-        "model": "Silverado",
-        "tireSizes": ["LT275/65R18", "LT265/70R17", "P255/70R16"],
-        "primarySize": "LT275/65R18", 
         "scrapedAt": "2025-08-10T17:30:00.000Z"
     },
     "2024_Honda_CR-V": {
@@ -74,11 +93,131 @@ const scrapedTireData = {
         "primarySize": "215/55R17", 
         "scrapedAt": "2025-08-10T17:30:00.000Z"
     },
+    "2024_Chevrolet_Silverado": {
+        "year": 2024,
+        "make": "Chevrolet",
+        "model": "Silverado",
+        "tireSizes": ["LT275/65R18", "LT265/70R17", "P255/70R16"],
+        "primarySize": "LT275/65R18", 
+        "scrapedAt": "2025-08-10T17:30:00.000Z"
+    },
+    
+    // 2023 Models
+    "2023_Honda_Civic": {
+        "year": 2023,
+        "make": "Honda",
+        "model": "Civic",
+        "tireSizes": ["215/55R16", "235/40R18", "215/50R17"],
+        "primarySize": "215/55R16",
+        "scrapedAt": "2025-08-10T17:30:00.000Z"
+    },
+    "2023_Toyota_Camry": {
+        "year": 2023,
+        "make": "Toyota", 
+        "model": "Camry",
+        "tireSizes": ["215/55R17", "235/45R18"],
+        "primarySize": "215/55R17",
+        "scrapedAt": "2025-08-10T17:30:00.000Z"
+    },
+    "2023_Ford_F-150": {
+        "year": 2023,
+        "make": "Ford",
+        "model": "F-150", 
+        "tireSizes": ["LT275/65R18", "LT275/70R17", "P255/70R17"],
+        "primarySize": "LT275/65R18",
+        "scrapedAt": "2025-08-10T17:30:00.000Z"
+    },
+    "2023_Chevrolet_Silverado": {
+        "year": 2023,
+        "make": "Chevrolet",
+        "model": "Silverado",
+        "tireSizes": ["LT275/65R18", "LT265/70R17", "P255/70R16"],
+        "primarySize": "LT275/65R18", 
+        "scrapedAt": "2025-08-10T17:30:00.000Z"
+    },
     "2023_RAM_1500": {
         "year": 2023,
         "make": "RAM",
         "model": "1500",
         "tireSizes": ["LT275/65R18", "LT275/60R20", "P255/70R16"],
+        "primarySize": "LT275/65R18",
+        "scrapedAt": "2025-08-10T17:30:00.000Z"
+    },
+    
+    // 2022 Models
+    "2022_Honda_Civic": {
+        "year": 2022,
+        "make": "Honda",
+        "model": "Civic",
+        "tireSizes": ["215/55R16", "235/40R18"],
+        "primarySize": "215/55R16",
+        "scrapedAt": "2025-08-10T17:30:00.000Z"
+    },
+    "2022_Toyota_Camry": {
+        "year": 2022,
+        "make": "Toyota", 
+        "model": "Camry",
+        "tireSizes": ["215/55R17", "235/45R18"],
+        "primarySize": "215/55R17",
+        "scrapedAt": "2025-08-10T17:30:00.000Z"
+    },
+    "2022_Ford_F-150": {
+        "year": 2022,
+        "make": "Ford",
+        "model": "F-150", 
+        "tireSizes": ["LT275/65R18", "LT275/70R17", "P255/70R17"],
+        "primarySize": "LT275/65R18",
+        "scrapedAt": "2025-08-10T17:30:00.000Z"
+    },
+    
+    // 2021 Models
+    "2021_Honda_Civic": {
+        "year": 2021,
+        "make": "Honda",
+        "model": "Civic",
+        "tireSizes": ["215/55R16", "235/40R18"],
+        "primarySize": "215/55R16",
+        "scrapedAt": "2025-08-10T17:30:00.000Z"
+    },
+    "2021_Toyota_Camry": {
+        "year": 2021,
+        "make": "Toyota", 
+        "model": "Camry",
+        "tireSizes": ["215/55R17", "235/45R18"],
+        "primarySize": "215/55R17",
+        "scrapedAt": "2025-08-10T17:30:00.000Z"
+    },
+    "2021_Ford_F-150": {
+        "year": 2021,
+        "make": "Ford",
+        "model": "F-150", 
+        "tireSizes": ["LT275/65R18", "LT275/70R17"],
+        "primarySize": "LT275/65R18",
+        "scrapedAt": "2025-08-10T17:30:00.000Z"
+    },
+    
+    // 2020 Models
+    "2020_Honda_Civic": {
+        "year": 2020,
+        "make": "Honda",
+        "model": "Civic",
+        "tireSizes": ["215/55R16", "235/40R18"],
+        "primarySize": "215/55R16",
+        "scrapedAt": "2025-08-10T17:30:00.000Z"
+    },
+    "2020_Toyota_Camry": {
+        "year": 2020,
+        "make": "Toyota", 
+        "model": "Camry",
+        "tireSizes": ["215/55R17", "235/45R18"],
+        "primarySize": "215/55R17",
+        "scrapedAt": "2025-08-10T17:30:00.000Z"
+    },
+    "2020_Ford_F-150": {
+        "year": 2020,
+        "make": "Ford",
+        "model": "F-150", 
+        "tireSizes": ["LT275/65R18", "LT275/70R17"],
         "primarySize": "LT275/65R18",
         "scrapedAt": "2025-08-10T17:30:00.000Z"
     }

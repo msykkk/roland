@@ -9,10 +9,13 @@
     "start": "python -m http.server 8080",
     "scrape-tires": "node tire-scraper.js",
     "scrape-50": "node tire-scraper.js 50",
-    "scrape-100": "node tire-scraper.js 100"
+    "scrape-100": "node tire-scraper.js 100",
+    "excel-to-json": "node excel-to-json.js",
+    "create-template": "node create-tire-template.js"
   },
   "dependencies": {
-    "jsdom": "^22.1.0"
+    "jsdom": "^22.1.0",
+    "xlsx": "^0.18.5"
   },
   "keywords": [
     "automotive",

@@ -18,7 +18,9 @@
       "WebFetch(domain:roland-yo1tcc9ii-noahs-projects-5b7ec00a.vercel.app)",
       "Bash(magick convert:*)",
       "WebFetch(domain:vpic.nhtsa.dot.gov)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(npm run create-template:*)",
+      "Bash(npm run:*)"
     ],
     "deny": []
   }
