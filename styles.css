@@ -358,6 +358,10 @@ p {
     box-shadow: 0 3px 10px rgba(0,0,0,0.1);
     margin-bottom: 30px;
     transition: transform 0.3s;
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .feature-box:hover {
