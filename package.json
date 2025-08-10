@@ -6,7 +6,13 @@
   "scripts": {
     "dev": "python -m http.server 3000",
     "build": "echo 'Static site - no build required'",
-    "start": "python -m http.server 8080"
+    "start": "python -m http.server 8080",
+    "scrape-tires": "node tire-scraper.js",
+    "scrape-50": "node tire-scraper.js 50",
+    "scrape-100": "node tire-scraper.js 100"
+  },
+  "dependencies": {
+    "jsdom": "^22.1.0"
   },
   "keywords": [
     "automotive",

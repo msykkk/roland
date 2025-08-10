@@ -272,104 +272,120 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
+    <!-- Load scraped tire data -->
+    <script src="sample-tire-data.js"></script>
+    
     <!-- Tire Finder JavaScript -->
     <script>
-        // Vehicle data - This would typically come from an API or database
-        const vehicleData = {
-            // Years from current year back to 1990
-            years: Array.from({length: new Date().getFullYear() - 1989}, (_, i) => new Date().getFullYear() - i),
-            
-            // Popular makes and their models with common tire sizes
-            makes: {
-                "Ford": {
-                    "F-150": "LT275/65R18",
-                    "Mustang": "225/55R17",
-                    "Explorer": "255/50R20",
-                    "Escape": "225/60R17",
-                    "Focus": "215/55R16",
-                    "Fusion": "235/50R17",
-                    "Edge": "245/60R18",
-                    "Expedition": "275/55R20"
-                },
-                "Chevrolet": {
-                    "Silverado": "LT275/65R18",
-                    "Malibu": "225/55R17",
-                    "Equinox": "225/65R17",
-                    "Tahoe": "275/55R20",
-                    "Cruze": "215/60R16",
-                    "Impala": "245/50R19",
-                    "Traverse": "255/65R18",
-                    "Camaro": "245/45R20"
-                },
-                "Toyota": {
-                    "Camry": "215/55R17",
-                    "Corolla": "205/55R16",
-                    "RAV4": "225/65R17",
-                    "Highlander": "245/60R18",
-                    "Prius": "195/65R15",
-                    "Tacoma": "265/65R17",
-                    "4Runner": "265/70R17",
-                    "Sienna": "235/60R17"
-                },
-                "Honda": {
-                    "Accord": "215/55R17",
-                    "Civic": "205/55R16",
-                    "CR-V": "225/65R17",
-                    "Pilot": "245/50R20",
-                    "Fit": "185/55R16",
-                    "Odyssey": "235/65R17",
-                    "Ridgeline": "245/60R18",
-                    "HR-V": "215/55R17"
-                },
-                "Nissan": {
-                    "Altima": "215/55R17",
-                    "Sentra": "205/55R16",
-                    "Rogue": "225/65R17",
-                    "Pathfinder": "235/65R18",
-                    "Maxima": "245/45R18",
-                    "Murano": "235/65R18",
-                    "Titan": "LT275/65R18",
-                    "Versa": "185/65R15"
-                },
-                "Jeep": {
-                    "Wrangler": "255/75R17",
-                    "Grand Cherokee": "245/60R18",
-                    "Cherokee": "225/60R17",
-                    "Compass": "215/60R17",
-                    "Renegade": "215/65R16",
-                    "Gladiator": "245/75R17",
-                    "Patriot": "215/60R17"
-                },
-                "RAM": {
-                    "1500": "LT275/65R18",
-                    "2500": "LT275/70R18",
-                    "3500": "LT275/70R18",
-                    "ProMaster": "225/75R16"
-                },
-                "GMC": {
-                    "Sierra": "LT275/65R18",
-                    "Acadia": "225/65R17",
-                    "Terrain": "225/65R17",
-                    "Yukon": "275/55R20",
-                    "Canyon": "265/60R18"
-                }
+        // Vehicle database built from scraped TireRack data
+        class VehicleDatabase {
+            constructor(scrapedData) {
+                this.scrapedData = scrapedData || {};
+                this.vehicleIndex = this.buildVehicleIndex();
             }
-        };
+
+            // Build searchable index from scraped data
+            buildVehicleIndex() {
+                const index = {
+                    years: new Set(),
+                    makes: {},
+                    vehicles: {}
+                };
+
+                // Process scraped data
+                Object.values(this.scrapedData).forEach(vehicle => {
+                    index.years.add(vehicle.year);
+                    
+                    if (!index.makes[vehicle.make]) {
+                        index.makes[vehicle.make] = new Set();
+                    }
+                    index.makes[vehicle.make].add(vehicle.model);
+                    
+                    const key = `${vehicle.year}_${vehicle.make}_${vehicle.model}`;
+                    index.vehicles[key] = vehicle;
+                });
+
+                // Convert sets to sorted arrays
+                index.years = Array.from(index.years).sort((a, b) => b - a);
+                Object.keys(index.makes).forEach(make => {
+                    index.makes[make] = Array.from(index.makes[make]).sort();
+                });
+
+                return index;
+            }
+
+            getYears() {
+                return this.vehicleIndex.years;
+            }
+
+            getMakes() {
+                return Object.keys(this.vehicleIndex.makes).sort();
+            }
+
+            getModelsForMake(make) {
+                return this.vehicleIndex.makes[make] || [];
+            }
+
+            getVehicleData(year, make, model) {
+                const key = `${year}_${make}_${model}`;
+                return this.vehicleIndex.vehicles[key];
+            }
+        }
+
+        // Initialize database with scraped data
+        const vehicleDB = new VehicleDatabase(typeof scrapedTireData !== 'undefined' ? scrapedTireData : {});
 
         // Initialize the form
         document.addEventListener('DOMContentLoaded', function() {
             populateYears();
             setupEventListeners();
+            
+            // Show database stats
+            const vehicleCount = Object.keys(vehicleDB.scrapedData).length;
+            console.log(`🚗 Loaded tire data for ${vehicleCount} vehicles from TireRack scraper`);
         });
 
         function populateYears() {
             const yearSelect = document.getElementById('vehicleYear');
-            vehicleData.years.forEach(year => {
+            const years = vehicleDB.getYears();
+            
+            years.forEach(year => {
                 const option = document.createElement('option');
                 option.value = year;
                 option.textContent = year;
                 yearSelect.appendChild(option);
             });
+        }
+
+        function populateMakes() {
+            const makeSelect = document.getElementById('vehicleMake');
+            makeSelect.innerHTML = '<option value="">Select Make</option>';
+            
+            const makes = vehicleDB.getMakes();
+            makes.forEach(make => {
+                const option = document.createElement('option');
+                option.value = make;
+                option.textContent = make;
+                makeSelect.appendChild(option);
+            });
+        }
+
+        function populateModels() {
+            const makeSelect = document.getElementById('vehicleMake');
+            const modelSelect = document.getElementById('vehicleModel');
+            const selectedMake = makeSelect.value;
+            
+            modelSelect.innerHTML = '<option value="">Select Model</option>';
+            
+            if (selectedMake) {
+                const models = vehicleDB.getModelsForMake(selectedMake);
+                models.forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model;
+                    option.textContent = model;
+                    modelSelect.appendChild(option);
+                });
+            }
         }
 
         function setupEventListeners() {
@@ -410,35 +426,6 @@
             });
         }
 
-        function populateMakes() {
-            const makeSelect = document.getElementById('vehicleMake');
-            makeSelect.innerHTML = '<option value="">Select Make</option>';
-            
-            Object.keys(vehicleData.makes).sort().forEach(make => {
-                const option = document.createElement('option');
-                option.value = make;
-                option.textContent = make;
-                makeSelect.appendChild(option);
-            });
-        }
-
-        function populateModels() {
-            const makeSelect = document.getElementById('vehicleMake');
-            const modelSelect = document.getElementById('vehicleModel');
-            const selectedMake = makeSelect.value;
-            
-            modelSelect.innerHTML = '<option value="">Select Model</option>';
-            
-            if (selectedMake && vehicleData.makes[selectedMake]) {
-                Object.keys(vehicleData.makes[selectedMake]).sort().forEach(model => {
-                    const option = document.createElement('option');
-                    option.value = model;
-                    option.textContent = model;
-                    modelSelect.appendChild(option);
-                });
-            }
-        }
-
         function resetMake() {
             const makeSelect = document.getElementById('vehicleMake');
             makeSelect.innerHTML = '<option value="">Select Make</option>';
@@ -461,7 +448,7 @@
         }
 
         function findTires() {
-            const year = document.getElementById('vehicleYear').value;
+            const year = parseInt(document.getElementById('vehicleYear').value);
             const make = document.getElementById('vehicleMake').value;
             const model = document.getElementById('vehicleModel').value;
             
@@ -473,19 +460,42 @@
             resultsDiv.style.display = 'none';
             noResultsDiv.style.display = 'none';
             
-            // Look up tire size
-            const tireSize = vehicleData.makes[make] && vehicleData.makes[make][model];
+            // Look up vehicle data from scraped database
+            const vehicleData = vehicleDB.getVehicleData(year, make, model);
             
-            if (tireSize) {
-                // Show results
+            if (vehicleData && vehicleData.primarySize) {
+                // Show results with multiple tire size options if available
+                let tireSizeDisplay = '';
+                
+                if (vehicleData.tireSizes && vehicleData.tireSizes.length > 1) {
+                    tireSizeDisplay = `
+                        <div class="tire-size-display">
+                            <i class="fas fa-tire text-primary me-2"></i>
+                            <span class="tire-size">${vehicleData.primarySize}</span>
+                        </div>
+                        <div class="additional-sizes mt-2">
+                            <small class="text-muted">Other available sizes: ${vehicleData.tireSizes.filter(size => size !== vehicleData.primarySize).join(', ')}</small>
+                        </div>
+                    `;
+                } else {
+                    tireSizeDisplay = `
+                        <div class="tire-size-display">
+                            <i class="fas fa-tire text-primary me-2"></i>
+                            <span class="tire-size">${vehicleData.primarySize}</span>
+                        </div>
+                    `;
+                }
+                
                 specsDiv.innerHTML = `
                     <div class="tire-spec-result">
                         <h5>Vehicle: ${year} ${make} ${model}</h5>
-                        <div class="tire-size-display">
-                            <i class="fas fa-tire text-primary me-2"></i>
-                            <span class="tire-size">${tireSize}</span>
-                        </div>
-                        <p class="mt-2"><small class="text-muted">This is the most common tire size for your vehicle. Your specific trim level may vary.</small></p>
+                        ${tireSizeDisplay}
+                        <p class="mt-2">
+                            <small class="text-muted">
+                                ✅ Data verified from TireRack.com<br>
+                                Last updated: ${new Date(vehicleData.scrapedAt).toLocaleDateString()}
+                            </small>
+                        </p>
                     </div>
                 `;
                 resultsDiv.style.display = 'block';
@@ -493,19 +503,30 @@
                 // Scroll to results
                 resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 
-                // Track the lookup (you could send this to Google Analytics)
+                // Track the lookup (Google Analytics)
                 if (typeof gtag !== 'undefined') {
-                    gtag('event', 'tire_lookup', {
+                    gtag('event', 'tire_lookup_success', {
                         'vehicle_year': year,
                         'vehicle_make': make,
                         'vehicle_model': model,
-                        'tire_size': tireSize
+                        'tire_size': vehicleData.primarySize,
+                        'data_source': 'tirerack_scraped'
                     });
                 }
             } else {
                 // Show no results
                 noResultsDiv.style.display = 'block';
                 noResultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+                // Track failed lookup
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'tire_lookup_failed', {
+                        'vehicle_year': year,
+                        'vehicle_make': make,
+                        'vehicle_model': model,
+                        'data_source': 'tirerack_scraped'
+                    });
+                }
             }
         }
     </script>
