@@ -277,14 +277,14 @@
     
     <!-- Tire Finder JavaScript -->
     <script>
-        // Vehicle database built from scraped TireRack data
+        // Roland's proprietary vehicle tire database
         class VehicleDatabase {
-            constructor(scrapedData) {
-                this.scrapedData = scrapedData || {};
+            constructor(vehicleData) {
+                this.vehicleData = vehicleData || {};
                 this.vehicleIndex = this.buildVehicleIndex();
             }
 
-            // Build searchable index from scraped data
+            // Build searchable index from vehicle data
             buildVehicleIndex() {
                 const index = {
                     years: new Set(),
@@ -292,8 +292,8 @@
                     vehicles: {}
                 };
 
-                // Process scraped data
-                Object.values(this.scrapedData).forEach(vehicle => {
+                // Process Roland's tire data
+                Object.values(this.vehicleData).forEach(vehicle => {
                     index.years.add(vehicle.year);
                     
                     if (!index.makes[vehicle.make]) {
@@ -333,7 +333,7 @@
         }
 
         // Initialize database with scraped data
-        const vehicleDB = new VehicleDatabase(typeof scrapedTireData !== 'undefined' ? scrapedTireData : {});
+        const vehicleDB = new VehicleDatabase(typeof rolandsTireData !== 'undefined' ? rolandsTireData : {});
 
         // Initialize the form
         document.addEventListener('DOMContentLoaded', function() {
@@ -492,8 +492,8 @@
                         ${tireSizeDisplay}
                         <p class="mt-2">
                             <small class="text-muted">
-                                ✅ Data verified from TireRack.com<br>
-                                Last updated: ${new Date(vehicleData.scrapedAt).toLocaleDateString()}
+                                ✅ Data from Roland's comprehensive database<br>
+                                Last updated: ${new Date(vehicleData.updatedAt).toLocaleDateString()}
                             </small>
                         </p>
                     </div>
@@ -510,7 +510,7 @@
                         'vehicle_make': make,
                         'vehicle_model': model,
                         'tire_size': vehicleData.primarySize,
-                        'data_source': 'tirerack_scraped'
+                        'data_source': 'rolands_database'
                     });
                 }
             } else {
@@ -524,7 +524,7 @@
                         'vehicle_year': year,
                         'vehicle_make': make,
                         'vehicle_model': model,
-                        'data_source': 'tirerack_scraped'
+                        'data_source': 'rolands_database'
                     });
                 }
             }
