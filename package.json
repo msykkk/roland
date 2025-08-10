@@ -1,0 +1,20 @@
+{
+  "name": "rolands-tire-automotive",
+  "version": "1.0.0",
+  "description": "Professional website for Roland's Tire and Automotive in Millington, TN",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python -m http.server 3000",
+    "build": "echo 'Static site - no build required'",
+    "start": "python -m http.server 8080"
+  },
+  "keywords": [
+    "automotive",
+    "tire-repair",
+    "auto-repair",
+    "millington-tn",
+    "ase-certified"
+  ],
+  "author": "Roland's Tire and Automotive",
+  "license": "ISC"
+}
