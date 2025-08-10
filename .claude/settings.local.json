@@ -20,7 +20,8 @@
       "WebFetch(domain:vpic.nhtsa.dot.gov)",
       "Bash(git reset:*)",
       "Bash(npm run create-template:*)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "WebFetch(domain:roland-aglt1rw3x-noahs-projects-5b7ec00a.vercel.app)"
     ],
     "deny": []
   }
