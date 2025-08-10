@@ -810,3 +810,158 @@ a:hover {
         border: 1px solid #ddd;
     }
 }
+
+/* Tire Finder Specific Styles */
+.tire-finder-card {
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 51, 102, 0.08);
+    padding: 3rem 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(0, 51, 102, 0.1);
+}
+
+.tire-finder-form .form-select {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: var(--white);
+}
+
+.tire-finder-form .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 51, 102, 0.15);
+    outline: none;
+}
+
+.tire-finder-form .form-select:disabled {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    border-color: #dee2e6;
+}
+
+.tire-results {
+    margin-top: 2rem;
+    animation: slideIn 0.4s ease-out;
+}
+
+.no-results {
+    margin-top: 2rem;
+    animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tire-size-display {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: var(--white);
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    text-align: center;
+    margin: 1rem 0;
+    box-shadow: 0 4px 16px rgba(0, 51, 102, 0.2);
+}
+
+.tire-size-display .tire-size {
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 0.05em;
+}
+
+.tire-spec-result h5 {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.info-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    height: 100%;
+    border: 1px solid rgba(0, 51, 102, 0.08);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(0, 51, 102, 0.06);
+}
+
+.info-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 51, 102, 0.12);
+}
+
+.info-card h4 {
+    color: var(--primary-color);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.info-card p {
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.tire-size-example {
+    background: #f8f9fa;
+    border-left: 4px solid var(--primary-color);
+    padding: 1rem 1.5rem;
+    border-radius: 0 8px 8px 0;
+    margin-top: 1rem;
+}
+
+.tire-size-example strong {
+    color: var(--primary-color);
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+}
+
+.call-to-action {
+    background: linear-gradient(135deg, #f8f9fa, var(--white));
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid rgba(0, 51, 102, 0.08);
+}
+
+.call-to-action h5 {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+/* Mobile Responsiveness for Tire Finder */
+@media (max-width: 768px) {
+    .tire-finder-card {
+        padding: 2rem 1.5rem;
+        margin: 1rem 0;
+    }
+    
+    .tire-size-display .tire-size {
+        font-size: 1.5rem;
+    }
+    
+    .info-card {
+        margin-bottom: 1.5rem;
+    }
+    
+    .call-to-action .d-flex {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .call-to-action .btn {
+        width: 100%;
+    }
+}

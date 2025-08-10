@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tire Finder | Roland's Tire and Automotive - Find Your Perfect Tire Size</title>
+    <meta name="description" content="Find the perfect tire size for your vehicle using our tire finder tool. Select your year, make, and model to get accurate tire specifications for your car, truck, or SUV.">
+    <meta name="keywords" content="tire finder, tire size lookup, vehicle tire specifications, Roland's Tire Millington TN, find my tire size">
+    <link rel="canonical" href="https://rolandstireandautomotive.com/tire-finder">
+    
+    <!-- Local SEO Meta Tags -->
+    <meta property="og:title" content="Tire Finder Tool | Roland's Tire and Automotive">
+    <meta property="og:description" content="Find the perfect tire size for your vehicle. Select your year, make, and model for accurate tire specifications.">
+    <meta property="og:image" content="logo.jpg">
+    <meta property="og:url" content="https://rolandstireandautomotive.com/tire-finder">
+    <meta property="og:type" content="website">
+    
+    <!-- Preconnect to external domains for faster loading -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Tire Finder Tool",
+        "description": "Find the perfect tire size for your vehicle using our tire finder tool",
+        "url": "https://rolandstireandautomotive.com/tire-finder",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "Roland's Tire and Automotive",
+            "url": "https://rolandstireandautomotive.com"
+        },
+        "provider": {
+            "@type": "LocalBusiness",
+            "name": "Roland's Tire and Automotive",
+            "telephone": "901-872-8473",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "4998 Navy Rd",
+                "addressLocality": "Millington",
+                "addressRegion": "TN",
+                "postalCode": "38053"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="logo.jpg" alt="Roland's Tire and Automotive Logo" height="40" class="me-2" loading="eager" decoding="async">
+                Roland's Tire and Automotive
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="tire-finder.html">Tire Finder</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Find Your Perfect Tires</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Tire Finder</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Tire Finder Tool -->
+    <section class="section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="tire-finder-card">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-search fa-3x text-primary mb-3"></i>
+                            <h2>Tire Size Lookup Tool</h2>
+                            <p class="lead">Select your vehicle details to find the correct tire size and specifications</p>
+                        </div>
+
+                        <form id="tireFinderForm" class="tire-finder-form">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="vehicleYear" class="form-label">Year *</label>
+                                    <select class="form-select" id="vehicleYear" required>
+                                        <option value="">Select Year</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="vehicleMake" class="form-label">Make *</label>
+                                    <select class="form-select" id="vehicleMake" required disabled>
+                                        <option value="">Select Make</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="vehicleModel" class="form-label">Model *</label>
+                                    <select class="form-select" id="vehicleModel" required disabled>
+                                        <option value="">Select Model</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="text-center mb-4">
+                                <button type="submit" class="btn-cta" id="findTiresBtn" disabled>
+                                    <i class="fas fa-search me-2"></i>Find My Tires
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Results Section -->
+                        <div id="tireResults" class="tire-results" style="display: none;">
+                            <div class="alert alert-success">
+                                <h4><i class="fas fa-check-circle me-2"></i>Tire Size Found!</h4>
+                                <div id="tireSpecs"></div>
+                            </div>
+                            
+                            <div class="call-to-action mt-4">
+                                <h5>Ready to Get New Tires?</h5>
+                                <p>Call Roland's Tire and Automotive for pricing and availability</p>
+                                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                                    <a href="tel:901-872-8473" class="btn btn-primary">
+                                        <i class="fas fa-phone me-2"></i>Call Now: (901) 872-8473
+                                    </a>
+                                    <a href="contact.html" class="btn btn-outline-primary">
+                                        <i class="fas fa-map-marker-alt me-2"></i>Visit Our Shop
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- No Results -->
+                        <div id="noResults" class="no-results" style="display: none;">
+                            <div class="alert alert-warning">
+                                <h4><i class="fas fa-exclamation-triangle me-2"></i>Vehicle Not Found</h4>
+                                <p>We couldn't find tire specifications for your vehicle in our database. Don't worry - we can still help!</p>
+                                <div class="mt-3">
+                                    <strong>Call us at <a href="tel:901-872-8473">(901) 872-8473</a></strong> and we'll look up your tire size manually.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Information -->
+    <section class="section section-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="info-card text-center">
+                        <i class="fas fa-tire fa-3x text-primary mb-3"></i>
+                        <h4>Professional Installation</h4>
+                        <p>Our ASE-certified technicians will mount and balance your new tires with precision.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="info-card text-center">
+                        <i class="fas fa-dollar-sign fa-3x text-primary mb-3"></i>
+                        <h4>Competitive Pricing</h4>
+                        <p>We offer fair, transparent pricing on all tire brands and installation services.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="info-card text-center">
+                        <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
+                        <h4>Warranty Protection</h4>
+                        <p>All tire installations come with our guarantee for your peace of mind.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Alternative Methods -->
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <h3>Can't Find Your Vehicle?</h3>
+                    <p>If your vehicle isn't listed in our tool, here are other ways to find your tire size:</p>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Check your current tires</strong> - The size is printed on the sidewall</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Vehicle door jamb</strong> - Look for a sticker on the driver's side door</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Owner's manual</strong> - Tire specifications are usually listed</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Call us</strong> - We can look it up for you over the phone</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <h3>Understanding Tire Sizes</h3>
+                    <p>Tire sizes might look confusing, but they're actually quite logical:</p>
+                    <div class="tire-size-example">
+                        <strong>Example: 225/60R16</strong>
+                        <ul class="list-unstyled mt-2">
+                            <li><strong>225</strong> = Width in millimeters</li>
+                            <li><strong>60</strong> = Aspect ratio (sidewall height)</li>
+                            <li><strong>R</strong> = Radial construction</li>
+                            <li><strong>16</strong> = Wheel diameter in inches</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h4>Roland's Tire and Automotive</h4>
+                    <p>Your trusted auto repair shop in Millington since 1965.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/p/Rolands-Tire-and-Automotive-100057685530933/" target="_blank" aria-label="Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h4>Quick Links</h4>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="tire-finder.html">Tire Finder</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h4>Contact Info</h4>
+                    <p>4998 Navy Rd, Millington, TN 38053<br>
+                    Phone: <a href="tel:901-872-8473">(901) 872-8473)</a><br>
+                    Mon-Fri: 8AM-5PM | Saturday: Closed</p>
+                </div>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.2);">
+            <div class="text-center">
+                <p>&copy; 2025 Roland's Tire and Automotive. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Tire Finder JavaScript -->
+    <script>
+        // Vehicle data - This would typically come from an API or database
+        const vehicleData = {
+            // Years from current year back to 1990
+            years: Array.from({length: new Date().getFullYear() - 1989}, (_, i) => new Date().getFullYear() - i),
+            
+            // Popular makes and their models with common tire sizes
+            makes: {
+                "Ford": {
+                    "F-150": "LT275/65R18",
+                    "Mustang": "225/55R17",
+                    "Explorer": "255/50R20",
+                    "Escape": "225/60R17",
+                    "Focus": "215/55R16",
+                    "Fusion": "235/50R17",
+                    "Edge": "245/60R18",
+                    "Expedition": "275/55R20"
+                },
+                "Chevrolet": {
+                    "Silverado": "LT275/65R18",
+                    "Malibu": "225/55R17",
+                    "Equinox": "225/65R17",
+                    "Tahoe": "275/55R20",
+                    "Cruze": "215/60R16",
+                    "Impala": "245/50R19",
+                    "Traverse": "255/65R18",
+                    "Camaro": "245/45R20"
+                },
+                "Toyota": {
+                    "Camry": "215/55R17",
+                    "Corolla": "205/55R16",
+                    "RAV4": "225/65R17",
+                    "Highlander": "245/60R18",
+                    "Prius": "195/65R15",
+                    "Tacoma": "265/65R17",
+                    "4Runner": "265/70R17",
+                    "Sienna": "235/60R17"
+                },
+                "Honda": {
+                    "Accord": "215/55R17",
+                    "Civic": "205/55R16",
+                    "CR-V": "225/65R17",
+                    "Pilot": "245/50R20",
+                    "Fit": "185/55R16",
+                    "Odyssey": "235/65R17",
+                    "Ridgeline": "245/60R18",
+                    "HR-V": "215/55R17"
+                },
+                "Nissan": {
+                    "Altima": "215/55R17",
+                    "Sentra": "205/55R16",
+                    "Rogue": "225/65R17",
+                    "Pathfinder": "235/65R18",
+                    "Maxima": "245/45R18",
+                    "Murano": "235/65R18",
+                    "Titan": "LT275/65R18",
+                    "Versa": "185/65R15"
+                },
+                "Jeep": {
+                    "Wrangler": "255/75R17",
+                    "Grand Cherokee": "245/60R18",
+                    "Cherokee": "225/60R17",
+                    "Compass": "215/60R17",
+                    "Renegade": "215/65R16",
+                    "Gladiator": "245/75R17",
+                    "Patriot": "215/60R17"
+                },
+                "RAM": {
+                    "1500": "LT275/65R18",
+                    "2500": "LT275/70R18",
+                    "3500": "LT275/70R18",
+                    "ProMaster": "225/75R16"
+                },
+                "GMC": {
+                    "Sierra": "LT275/65R18",
+                    "Acadia": "225/65R17",
+                    "Terrain": "225/65R17",
+                    "Yukon": "275/55R20",
+                    "Canyon": "265/60R18"
+                }
+            }
+        };
+
+        // Initialize the form
+        document.addEventListener('DOMContentLoaded', function() {
+            populateYears();
+            setupEventListeners();
+        });
+
+        function populateYears() {
+            const yearSelect = document.getElementById('vehicleYear');
+            vehicleData.years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            });
+        }
+
+        function setupEventListeners() {
+            const yearSelect = document.getElementById('vehicleYear');
+            const makeSelect = document.getElementById('vehicleMake');
+            const modelSelect = document.getElementById('vehicleModel');
+            const form = document.getElementById('tireFinderForm');
+
+            yearSelect.addEventListener('change', function() {
+                if (this.value) {
+                    populateMakes();
+                    makeSelect.disabled = false;
+                    resetModel();
+                } else {
+                    resetMake();
+                    resetModel();
+                }
+                updateSubmitButton();
+            });
+
+            makeSelect.addEventListener('change', function() {
+                if (this.value) {
+                    populateModels();
+                    modelSelect.disabled = false;
+                } else {
+                    resetModel();
+                }
+                updateSubmitButton();
+            });
+
+            modelSelect.addEventListener('change', function() {
+                updateSubmitButton();
+            });
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                findTires();
+            });
+        }
+
+        function populateMakes() {
+            const makeSelect = document.getElementById('vehicleMake');
+            makeSelect.innerHTML = '<option value="">Select Make</option>';
+            
+            Object.keys(vehicleData.makes).sort().forEach(make => {
+                const option = document.createElement('option');
+                option.value = make;
+                option.textContent = make;
+                makeSelect.appendChild(option);
+            });
+        }
+
+        function populateModels() {
+            const makeSelect = document.getElementById('vehicleMake');
+            const modelSelect = document.getElementById('vehicleModel');
+            const selectedMake = makeSelect.value;
+            
+            modelSelect.innerHTML = '<option value="">Select Model</option>';
+            
+            if (selectedMake && vehicleData.makes[selectedMake]) {
+                Object.keys(vehicleData.makes[selectedMake]).sort().forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model;
+                    option.textContent = model;
+                    modelSelect.appendChild(option);
+                });
+            }
+        }
+
+        function resetMake() {
+            const makeSelect = document.getElementById('vehicleMake');
+            makeSelect.innerHTML = '<option value="">Select Make</option>';
+            makeSelect.disabled = true;
+        }
+
+        function resetModel() {
+            const modelSelect = document.getElementById('vehicleModel');
+            modelSelect.innerHTML = '<option value="">Select Model</option>';
+            modelSelect.disabled = true;
+        }
+
+        function updateSubmitButton() {
+            const year = document.getElementById('vehicleYear').value;
+            const make = document.getElementById('vehicleMake').value;
+            const model = document.getElementById('vehicleModel').value;
+            const submitBtn = document.getElementById('findTiresBtn');
+            
+            submitBtn.disabled = !(year && make && model);
+        }
+
+        function findTires() {
+            const year = document.getElementById('vehicleYear').value;
+            const make = document.getElementById('vehicleMake').value;
+            const model = document.getElementById('vehicleModel').value;
+            
+            const resultsDiv = document.getElementById('tireResults');
+            const noResultsDiv = document.getElementById('noResults');
+            const specsDiv = document.getElementById('tireSpecs');
+            
+            // Hide both result divs first
+            resultsDiv.style.display = 'none';
+            noResultsDiv.style.display = 'none';
+            
+            // Look up tire size
+            const tireSize = vehicleData.makes[make] && vehicleData.makes[make][model];
+            
+            if (tireSize) {
+                // Show results
+                specsDiv.innerHTML = `
+                    <div class="tire-spec-result">
+                        <h5>Vehicle: ${year} ${make} ${model}</h5>
+                        <div class="tire-size-display">
+                            <i class="fas fa-tire text-primary me-2"></i>
+                            <span class="tire-size">${tireSize}</span>
+                        </div>
+                        <p class="mt-2"><small class="text-muted">This is the most common tire size for your vehicle. Your specific trim level may vary.</small></p>
+                    </div>
+                `;
+                resultsDiv.style.display = 'block';
+                
+                // Scroll to results
+                resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+                // Track the lookup (you could send this to Google Analytics)
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'tire_lookup', {
+                        'vehicle_year': year,
+                        'vehicle_make': make,
+                        'vehicle_model': model,
+                        'tire_size': tireSize
+                    });
+                }
+            } else {
+                // Show no results
+                noResultsDiv.style.display = 'block';
+                noResultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+    </script>
+</body>
+</html>
