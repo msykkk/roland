@@ -15,7 +15,10 @@
     "excel-to-json": "node excel-to-json.js",
     "json-to-excel": "node json-to-excel.js",
     "create-template": "node create-tire-template.js",
-    "create-comprehensive": "node populate-comprehensive-database.js"
+    "create-comprehensive": "node populate-comprehensive-database.js",
+    "scrape-complete": "node comprehensive-tirerack-scraper.js",
+    "scrape-stealth": "node stealth-tirerack-scraper.js",
+    "create-massive": "node massive-vehicle-database.js"
   },
   "dependencies": {
     "jsdom": "^22.1.0",
